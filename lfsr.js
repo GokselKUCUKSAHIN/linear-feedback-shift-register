@@ -17,6 +17,18 @@ function bitStringToNumber(bitstring) {
   return sum;
 }
 
+function createLFSRGenerator(bitCount = 64){
+  const maxValue = Math.pow(2, bitCount);
+  const register = createRegister(bitCount);
+  return function() {
+    const value = bitStringToNumber(register) / maxValue;
+    shiftRight(register);
+    return value; 
+  }
+}
+
+// DEMO
+
 const bitCount = 512;
 const maxValue = Math.pow(2, bitCount);
 const len = 100_000;
@@ -26,4 +38,13 @@ for (let i = 0; i < len; i++) {
   sum += bitStringToNumber(register) / maxValue;
   shiftRight(register);
 }
-console.log(sum / len);
+console.log(sum / len); // Should be ~0.5
+
+// DEMO 2
+
+const rand = createLFSRGenerator();
+let sum = 0;
+for (let i = 0; i < 100_000; i++) {
+  sum += rand();
+}
+console.log(sum / 100_000)
