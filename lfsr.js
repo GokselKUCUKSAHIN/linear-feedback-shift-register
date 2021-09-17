@@ -7,8 +7,20 @@ function shiftRight(register, feed = 0) {
   register.push(feed);
 }
 
-function xor(register){
+function xor(register) {
   return register[0] ^ register[1];
+}
+
+function xor2(register) {
+  return xor(register) ^ register[2];
+}
+
+function xor3(register) {
+  return xor2(register) ^ register[3];
+}
+
+function xor4(register) {
+  return xor3(register) ^ register[4];
 }
 
 function bitStringToNumber(bitstring) {
@@ -20,12 +32,12 @@ function bitStringToNumber(bitstring) {
   return sum;
 }
 
-function createLFSRGenerator(bitCount = 64){
+function createLFSRGenerator(bitCount = 64) {
   const maxValue = Math.pow(2, bitCount);
   const register = createRegister(bitCount);
-  return function() {
+  return function () {
     const value = bitStringToNumber(register) / maxValue;
-    shiftRight(register, xor(register));
+    shiftRight(register, xor4(register));
     return value;
   }
 }
@@ -46,10 +58,10 @@ console.log(sum / len); // Should be ~0.5
 */
 
 // DEMO 2
-
+const limit = 500_000;
 const rand = createLFSRGenerator(128);
 let sum = 0;
-for (let i = 0; i < 100_000; i++) {
+for (let i = 0; i < limit; i++) {
   sum += rand();
 }
-console.log(sum / 100_000);
+console.log(sum / limit);
