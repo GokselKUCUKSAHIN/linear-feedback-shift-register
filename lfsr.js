@@ -1,5 +1,5 @@
 function createRegister(size = 32) {
-  return [...Array(size)].map(_ => 1 * (Math.random() > 0.5));
+  return [...Array(size)].map(_ => 0 + (Math.random() > 0.5));
 }
 
 function shiftRight(register, feed = 0) {
